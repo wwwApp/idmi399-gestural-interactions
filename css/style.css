@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css?family=Sarala&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #21252d;
+  color: white;
+  font-family: "Sarala", sans-serif;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.main > section {
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 1rem;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  padding: 1.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.25rem;
+}
+
+.display {
+  font-size: 5rem;
+  padding: 2rem;
+}
+
+.code-reader__display {
+  color: white;
+  background-color: #282e39;
+  height: 10rem;
+  border-radius: 0 0 0.65rem 0.65rem;
+}
+
+.code-reader__status {
+  height: 3rem;
+  background-color: rgb(182, 31, 31);
+  border-radius: 0.65rem 0.65rem 0 0;
+}
+
+.code-reader__status.active {
+  background-color: #02a245;
+}
