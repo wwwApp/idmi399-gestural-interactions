@@ -14,7 +14,8 @@ var lastHandIn = 0;
 
 Leap.loop(controllerOptions, function(frame) {
   if (frame.hands.length > 0) {
-    document.querySelector(".code-reader__status").classList.add("active");
+    var dataString = "";
+    $(".code-reader__status").addClass("active");
 
     handIn = true;
 
@@ -24,24 +25,43 @@ Leap.loop(controllerOptions, function(frame) {
       // console.log(hand.timeVisible);
 
       // read the pattern
-      if (hand.timeVisible > 0.5 && hand.grabStrength > 0) {
+      if (hand.timeVisible > 1 && hand.grabStrength > 0.5) {
         morse = "-";
-      } else if (hand.timeVisible < 0.5 && hand.grabStrength > 0) {
+        $(".legend__status").removeClass("active");
+        $(".legend--dash .legend__status").addClass("active");
+      } else if (hand.timeVisible < 1 && hand.grabStrength > 0.5) {
         morse = ".";
-      } else if (hand.timeVisible > 0.5 && hand.grabStrength == 0) {
+        $(".legend__status").removeClass("active");
+        $(".legend--dot .legend__status").addClass("active");
+      } else if (hand.timeVisible > 1 && hand.grabStrength < 0.5) {
         // separate word
         morse = "/";
-      } else if (hand.timeVisible < 0.5 && hand.grabStrength == 0) {
+        $(".legend__status").removeClass("active");
+        $(".legend--word .legend__status").addClass("active");
+      } else if (hand.timeVisible < 1 && hand.grabStrength < 0.5) {
         // separate letter
         morse = " ";
+        $(".legend__status").removeClass("active");
+        $(".legend--letter .legend__status").addClass("active");
       }
     }
+
+    // update data value displayed in the interface
+    // dataString +=
+    //   "Hand Grabbed: <span class='data-partial'>" + hand.grabStrength > 0
+    //     ? "TRUE"
+    //     : "FALSE" + "</span><br />";
+    // dataString +=
+    //   "Hand Visible Time: <span class='data-partial'>" +
+    //   hand.timeVisible +
+    //   "</span>";
   } else if (frame.hand.length > 0 && handIn) {
     // print your code when your hand is in AND out
     // and make sure toggle handIn to false for next input
-    document.querySelector(".code-reader__display").innerHTML += morse;
+    $(".code-reader__display").append(morse);
     handIn = false;
   } else {
-    document.querySelector(".code-reader__status").classList.remove("active");
+    $(".code-reader__status").removeClass("active");
+    $(".legend__status").removeClass("active");
   }
 });
