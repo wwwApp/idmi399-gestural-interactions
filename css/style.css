@@ -25,26 +25,39 @@ body {
 
 .title {
   text-align: center;
-  font-size: 2.5rem;
-  padding: 1.5rem 0;
+  font-size: 2rem;
+  margin: 2rem 0;
   text-transform: uppercase;
   letter-spacing: 0.25rem;
 }
 
+.section-heading {
+  display: flex;
+}
+
+.section-heading > * {
+  margin-right: 10px;
+}
+
 .display {
-  font-size: 5rem;
-  padding: 2rem;
+  font-size: 3rem;
+  padding: 1.5rem;
+  background-color: #282e39;
+  border-radius: 0.65rem;
+}
+
+.code-translator__display {
+  font-size: 2rem;
+  height: 5rem;
 }
 
 .code-reader__display {
-  color: white;
-  background-color: #282e39;
-  height: 10rem;
+  height: 7rem;
   border-radius: 0 0 0.65rem 0.65rem;
 }
 
 .code-reader__status {
-  height: 40px;
+  height: 2rem;
   background-color: rgb(182, 31, 31);
   border-radius: 0.65rem 0.65rem 0 0;
 }
@@ -98,8 +111,8 @@ body {
 }
 
 .legend__icon svg {
-  width: 70px;
-  height: 70px;
+  width: 4rem;
+  height: 4rem;
   fill: white;
 }
 
@@ -108,8 +121,20 @@ body {
   line-height: 0.85rem;
 }
 
-.emphasize {
+.legend__desc .emphasize {
   font-size: 1.25rem;
   font-weight: bold;
   line-height: 2rem;
+}
+
+.button {
+  background: transparent;
+  fill: white;
+  border: none;
+}
+
+.button svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  vertical-align: bottom;
 }
