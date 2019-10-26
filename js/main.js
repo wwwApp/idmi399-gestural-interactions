@@ -127,7 +127,7 @@ function translate(morseCode) {
  */
 $("#readButton").on("click", function() {
   VoiceRSS.speech({
-    key: "b712c895b8fa4d2baedbdca044d05f6c",
+    key: voiceRSSKey,
     src: translation,
     hl: "en-us",
     r: 0,
