@@ -89,13 +89,14 @@ Leap.loop(controllerOptions, function(frame) {
     // print your code when your hand is in AND out
     // and make sure toggle handIn to false for next input
     $(".code-reader__display").append(signal);
-    morse += signal;
 
     if (signal === "/" || signal === " ") {
       let translatedMorse = translate(morse);
       $(".code-translator__display").append(translatedMorse);
 
       translation += translatedMorse;
+    } else {
+      morse += signal;
     }
 
     handIn = false;
@@ -115,14 +116,15 @@ function translate(morseCode) {
   // if input is '/', simply add space to separate translated words
   // otherwise, translate
   if (morseCode != "/") {
-    // make sure to remove ' ' at the end for translation
-    let processedMorseCode = morseCode.slice(0, -1);
     return morseGuide[processedMorseCode];
   } else {
     return " ";
   }
 }
 
+/**
+ * Read button event handler
+ */
 $("#readButton").on("click", function() {
   VoiceRSS.speech({
     key: "b712c895b8fa4d2baedbdca044d05f6c",
