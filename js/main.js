@@ -37,6 +37,17 @@ const morseGuide = {
   "-----": "0"
 };
 
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioContext();
+var currTime = audioCtx.currentTime;
+const dot = 1.2 / 15; //length of one signal
+
+var oscillator = audioCtx.createOscillator();
+oscillator.frequency.value = 600;
+
+var gainNode = audioCtx.createGain();
+gainNode.gain.setValueAtTime(0, currTime);
+
 // Setup Leap loop with frame callback function
 var controllerOptions = { enableGestures: false };
 
@@ -44,11 +55,8 @@ var controllerOptions = { enableGestures: false };
 var handIn = false;
 var signal = ""; // such as - . /
 var morse = ""; // morse code for each letter/number
+var completeMorse = "";
 var translation = ""; // complete translation of input
-
-// Store the duration of last hand in
-// for translation/rendering
-var lastHandIn = 0;
 
 /**
  * Leap Loop to process data
@@ -88,7 +96,8 @@ Leap.loop(controllerOptions, function(frame) {
   } else if (frame.hand.length > 0 && handIn) {
     // print your code when your hand is in AND out
     // and make sure toggle handIn to false for next input
-    $(".code-reader__display").append(signal);
+    completeMorse += signal;
+    $(".code-reader__display").html(completeMorse);
 
     if (signal === "/" || signal === " ") {
       let translatedMorse = translate(morse);
@@ -116,16 +125,59 @@ function translate(morseCode) {
   // if input is '/', simply add space to separate translated words
   // otherwise, translate
   if (morseCode != "/") {
-    return morseGuide[processedMorseCode];
+    return morseGuide[morseCode];
   } else {
     return " ";
   }
 }
 
 /**
+ * Function to read morse code with audio API
+ *
+ * gainNode.gain.setValueAtTime(volumn,duration) controls the volume
+ * so, in each case, volumn controlled (turned on/off) to
+ * create the signal sound
+ */
+function readMorse(completeMorseCode) {
+  completeMorseCode.split("").forEach(function(letter) {
+    switch (letter) {
+      case ".":
+        gainNode.gain.setValueAtTime(1, currTime);
+        currTime += dot;
+        gainNode.gain.setValueAtTime(0, currTime);
+        currTime += dot;
+        break;
+      case "-":
+        gainNode.gain.setValueAtTime(1, currTime);
+        currTime += 3 * dot;
+        gainNode.gain.setValueAtTime(0, currTime);
+        currTime += dot;
+        break;
+      case " ":
+        currTime += 3 * dot;
+        break;
+      case "/":
+        currTime += 7 * dot;
+        break;
+    }
+  });
+
+  oscillator.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+
+  oscillator.start();
+
+  return false;
+}
+
+/**
  * Read button event handler
  */
-$("#readButton").on("click", function() {
+$("#readButton--morse").on("click", function() {
+  readMorse(completeMorse);
+});
+
+$("#readButton--translation").on("click", function() {
   VoiceRSS.speech({
     key: voiceRSSKey,
     src: translation,
