@@ -37,6 +37,7 @@ const morseGuide = {
   "-----": "0"
 };
 
+// for audio api
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 var currTime = audioCtx.currentTime;
@@ -48,15 +49,15 @@ oscillator.frequency.value = 600;
 var gainNode = audioCtx.createGain();
 gainNode.gain.setValueAtTime(0, currTime);
 
-// Setup Leap loop with frame callback function
-var controllerOptions = { enableGestures: false };
-
 // Store morse code peice (dot or dash) to be printed
 var handIn = false;
 var signal = ""; // such as - . /
 var morse = ""; // morse code for each letter/number
 var completeMorse = "";
 var translation = ""; // complete translation of input
+
+// Setup Leap loop with frame callback function
+var controllerOptions = { enableGestures: false };
 
 /**
  * Leap Loop to process data
@@ -137,6 +138,8 @@ function translate(morseCode) {
  * gainNode.gain.setValueAtTime(volumn,duration) controls the volume
  * so, in each case, volumn controlled (turned on/off) to
  * create the signal sound
+ *
+ * https://codepen.io/cople/pen/zZLJOz
  */
 function readMorse(completeMorseCode) {
   completeMorseCode.split("").forEach(function(letter) {
