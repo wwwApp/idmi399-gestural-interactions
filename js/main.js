@@ -64,9 +64,9 @@ var controllerOptions = { enableGestures: false };
  */
 Leap.loop(controllerOptions, function(frame) {
   if (frame.hands.length > 0) {
-    var dataString = "";
     $(".code-reader__status").addClass("active");
 
+    let longerSignalInterval = 0.5;
     handIn = true;
 
     // recongize dash and dot based on duration
@@ -74,20 +74,29 @@ Leap.loop(controllerOptions, function(frame) {
       var hand = frame.hands[i];
 
       // read the pattern
-      if (hand.timeVisible > 1 && hand.grabStrength > 0.5) {
+      if (hand.timeVisible > longerSignalInterval && hand.grabStrength > 0.5) {
         signal = "-";
         $(".legend__status").removeClass("active");
         $(".legend--dash .legend__status").addClass("active");
-      } else if (hand.timeVisible < 1 && hand.grabStrength > 0.5) {
+      } else if (
+        hand.timeVisible < longerSignalInterval &&
+        hand.grabStrength > 0.5
+      ) {
         signal = ".";
         $(".legend__status").removeClass("active");
         $(".legend--dot .legend__status").addClass("active");
-      } else if (hand.timeVisible > 1 && hand.grabStrength < 0.5) {
+      } else if (
+        hand.timeVisible > longerSignalInterval &&
+        hand.grabStrength < 0.5
+      ) {
         // separate word
         signal = "/";
         $(".legend__status").removeClass("active");
         $(".legend--word .legend__status").addClass("active");
-      } else if (hand.timeVisible < 1 && hand.grabStrength < 0.5) {
+      } else if (
+        hand.timeVisible < longerSignalInterval &&
+        hand.grabStrength < 0.5
+      ) {
         // separate letter
         signal = " ";
         $(".legend__status").removeClass("active");
