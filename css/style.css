@@ -23,12 +23,33 @@ body {
   padding: 1rem;
 }
 
+.title-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .title {
   text-align: center;
   font-size: 2rem;
   margin: 2rem 0;
   text-transform: uppercase;
   letter-spacing: 0.25rem;
+}
+
+.leap-connection-indicator {
+  text-align: center;
+  font-size: 0.5rem;
+  width: 1.35rem;
+  padding: 0.35rem 0;
+  background-color: rgb(182, 31, 31);
+  border-radius: 50%;
+  text-transform: uppercase;
+  margin-left: 0.75rem;
+}
+
+.leap-connection-indicator.active {
+  background-color: #02a245;
 }
 
 .section-heading {

@@ -57,12 +57,14 @@ var completeMorse = "";
 var translation = ""; // complete translation of input
 
 // Setup Leap loop with frame callback function
-var controllerOptions = { enableGestures: false };
+// var controllerOptions = { enableGestures: false };
+const $leapConnectionIndi = $(".leap-connection-indicator");
 
 /**
  * Leap Loop to process data
  */
-Leap.loop(controllerOptions, function(frame) {
+var controller = new Leap.Controller();
+controller.on("frame", function(frame) {
   if (frame.hands.length > 0) {
     $(".code-reader__status").addClass("active");
 
@@ -124,6 +126,23 @@ Leap.loop(controllerOptions, function(frame) {
     $(".legend__status").removeClass("active");
   }
 });
+
+controller.on("connect", function() {
+  $leapConnectionIndi.html("on");
+  $leapConnectionIndi.addClass("active");
+});
+
+controller.on("deviceConnected", function() {
+  $leapConnectionIndi.html("on");
+  $leapConnectionIndi.addClass("active");
+});
+
+controller.on("deviceDisconnected", function() {
+  $leapConnectionIndi.html("off");
+  $leapConnectionIndi.removeClass("active");
+});
+
+controller.connect();
 
 /**
  * Function to translate morse code
