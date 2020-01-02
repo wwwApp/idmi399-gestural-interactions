@@ -127,10 +127,7 @@ controller.on("frame", function(frame) {
   }
 });
 
-controller.on("connect", function() {
-  $leapConnectionIndi.html("on");
-  $leapConnectionIndi.addClass("active");
-});
+controller.connect();
 
 controller.on("deviceConnected", function() {
   $leapConnectionIndi.html("on");
@@ -142,8 +139,6 @@ controller.on("deviceDisconnected", function() {
   $leapConnectionIndi.removeClass("active");
 });
 
-controller.connect();
-
 /**
  * Function to translate morse code
  */
@@ -153,10 +148,14 @@ function translate(morseCode) {
 
   // if input is '/', simply add space to separate translated words
   // otherwise, translate
-  if (morseCode != "/") {
+  if (signal != "/") {
     return morseGuide[morseCode];
   } else {
-    return " ";
+    if (morseCode.length > 0) {
+      return morseGuide[morseCode] + " ";
+    } else {
+      return " ";
+    }
   }
 }
 
